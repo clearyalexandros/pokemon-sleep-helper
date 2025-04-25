@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { recipes } from './recipes';
 import type { Recipe, Ingredient } from './types';
 
@@ -35,34 +35,6 @@ const App = () => {
     }[] 
   }[]>([]);
   const [filter, setFilter] = useState<'All' | 'Curry' | 'Salad' | 'Dessert'>('All');
-
-  const [visitCount, setVisitCount] = useState<number>(0);
-  const [uniqueCount, setUniqueCount] = useState<number>(0);
-  const [todayCount, setTodayCount] = useState<number>(0);
-
-  useEffect(() => {
-    const base = 'psbuildarecipe.com';
-    const todayKey = `${base}/visits/${new Date().toISOString().split('T')[0]}`;
-    const totalKey = `${base}/visits`;
-    const uniqueKey = `${base}/unique`;
-
-    fetch(`https://api.countapi.xyz/hit/${totalKey}`)
-      .then(res => res.json())
-      .then(data => setVisitCount(data.value));
-
-    if (!localStorage.getItem('hasVisited')) {
-      localStorage.setItem('hasVisited', 'true');
-      fetch(`https://api.countapi.xyz/hit/${uniqueKey}`);
-    }
-
-    fetch(`https://api.countapi.xyz/hit/${todayKey}`)
-      .then(res => res.json())
-      .then(data => setTodayCount(data.value));
-
-    fetch(`https://api.countapi.xyz/get/${uniqueKey}`)
-      .then(res => res.json())
-      .then(data => setUniqueCount(data.value));
-  }, []);
 
   const adjustIngredientQuantity = (ingredientName: string, amount: number) => {
     setInventory(prevInventory => {
@@ -127,16 +99,11 @@ const App = () => {
     <div className="min-h-screen bg-amber-50 flex flex-col">
       <header className="bg-red-600 text-white py-6 shadow-lg w-full">
         <div className="container mx-auto flex items-center px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center">
           <h1 className="text-4xl font-bold font-pokemon">
-            Pokémon Sleep Recipe Helper by Alex Cleary
+            Pokémon Sleep Recipe Helper
           </h1>
           <span className="ml-4 text-3xl">🍛🥗🍨</span>
         </div>
-        <p className="text-sm mt-4 sm:mt-0">
-            Visits: {visitCount.toLocaleString()} | Unique: {uniqueCount.toLocaleString()} | Today: {todayCount.toLocaleString()}
-          </p>
-          </div>
       </header>
 
       <main className="flex-1 container mx-auto py-8 px-4 sm:px-6 lg:px-8 w-full">
