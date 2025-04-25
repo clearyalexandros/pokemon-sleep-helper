@@ -18,7 +18,16 @@ const App = () => {
   ]);
 
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [almostRecipes, setAlmostRecipes] = useState<{ recipe: Recipe, missing: string[] }[]>([]);
+  const [almostRecipes, setAlmostRecipes] = useState<{ 
+    recipe: Recipe; 
+    missing: string[];
+    missingDetails: {
+      name: string;
+      needed: number;
+      have: number;
+      missing: number;
+    }[] 
+  }[]>([]);
   const [filter, setFilter] = useState<'All' | 'Curry' | 'Salad' | 'Dessert'>('All');
 
   const adjustIngredientQuantity = (ingredientName: string, amount: number) => {
@@ -28,7 +37,7 @@ const App = () => {
           ? { ...ingredient, quantity: Math.max(0, ingredient.quantity + amount) }
           : ingredient
       );
-      findBestRecipe(updatedInventory);
+      findBestRecipe();
       return updatedInventory;
     });
   };
@@ -55,7 +64,7 @@ const App = () => {
       .filter(ing => ing.missing > 0);
   };
 
-  const findBestRecipe = (updatedInventory: Ingredient[]) => {
+  const findBestRecipe = () => {
     const recipeSuggestions = recipes.map(recipe => {
       const missingIngredients = getMissingIngredients(recipe);
       return {
@@ -182,39 +191,36 @@ const App = () => {
           </section>
         )}
 
-        {almostRecipes.length > 0 && (
-          <section className="mb-8">
-            <h3 className="text-2xl font-bold mb-4">Almost Makeable Recipes</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {almostRecipes.map(({ recipe, missing }) => {
-                const missingDetails = getMissingIngredients(recipe);
-                return (
-                  <div key={recipe.name} className="bg-white p-4 rounded-lg shadow border border-gray-200">
-                    <div className="flex items-start">
-                      <span className="text-3xl mr-3">{recipe.icon}</span>
-                      <div>
-                        <h4 className="font-bold text-lg">{recipe.name}</h4>
-                        <p className="text-gray-600 text-sm mb-2">{recipe.description}</p>
-                        <div className="text-sm">
-                          <p className="text-red-500 font-medium">
-                            Missing {missingDetails.length} ingredient(s):
-                          </p>
-                          <ul className="list-disc pl-5">
-                            {missingDetails.map(({ name, missing, needed, have }) => (
-                              <li key={name}>
-                                {name}: Need {needed} (have {have})
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
+{almostRecipes.length > 0 && (
+        <section className="mb-8">
+          <h3 className="text-2xl font-bold mb-4">Almost Makeable Recipes</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {almostRecipes.map(({ recipe, missingDetails }) => (
+              <div key={recipe.name} className="bg-white p-4 rounded-lg shadow border border-gray-200">
+                <div className="flex items-start">
+                  <span className="text-3xl mr-3">{recipe.icon}</span>
+                  <div>
+                    <h4 className="font-bold text-lg">{recipe.name}</h4>
+                    <p className="text-gray-600 text-sm mb-2">{recipe.description}</p>
+                    <div className="text-sm">
+                      <p className="text-red-500 font-medium">
+                        Missing {missingDetails.length} ingredient(s):
+                      </p>
+                      <ul className="list-disc pl-5">
+                        {missingDetails.map(({ name, needed, have }) => (
+                          <li key={name}>
+                            {name}: Need {needed} (have {have})
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
         <section className="mt-12">
           <h3 className="text-2xl font-bold mb-4">All Recipes</h3>
@@ -229,7 +235,7 @@ const App = () => {
                   className="bg-white p-4 rounded-lg shadow hover:shadow-md transition cursor-pointer"
                   onClick={() => {
                     setRecipe(recipe);
-                    findBestRecipe(inventory);
+                    findBestRecipe();
                   }}
                 >
                   <div className="flex flex-col h-full">
