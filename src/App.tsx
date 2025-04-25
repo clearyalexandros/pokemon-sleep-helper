@@ -15,6 +15,12 @@ const App = () => {
     { name: 'Greengrass Soybeans', icon: '🌱', quantity: 0 },
     { name: 'Greengrass Corn', icon: '🌽', quantity: 0 },
     { name: 'Rousing Coffee', icon: '☕', quantity: 0 },
+    { name: 'Large Leek', icon: '🌿', quantity: 0 },
+    { name: 'Tasty Mushroom', icon: '🍄‍🟫', quantity: 0 },
+    { name: 'Fancy Egg', icon: '🥚', quantity: 0 },
+    { name: 'Bean Sausage', icon: '🌭', quantity: 0 },
+    { name: 'Pure Oil', icon: '🛢️', quantity: 0 },
+    { name: 'Soothing Cacao', icon: '🍫', quantity: 0 },
   ]);
 
   const [recipeMatches, setRecipeMatches] = useState<Recipe[]>([]);
