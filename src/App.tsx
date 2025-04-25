@@ -18,7 +18,7 @@ const App = () => {
   ]);
 
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [almostRecipes, setAlmostRecipes] = useState<{recipe: Recipe, missing: string[]}[]>([]);
+  const [almostRecipes, setAlmostRecipes] = useState<{ recipe: Recipe, missing: string[] }[]>([]);
   const [filter, setFilter] = useState<'All' | 'Curry' | 'Salad' | 'Dessert'>('All');
 
   const adjustIngredientQuantity = (ingredientName: string, amount: number) => {
@@ -34,7 +34,7 @@ const App = () => {
   };
 
   const resetAllQuantities = () => {
-    setInventory(prevInventory => 
+    setInventory(prevInventory =>
       prevInventory.map(ingredient => ({ ...ingredient, quantity: 0 }))
     );
     setRecipe(null);
@@ -58,8 +58,8 @@ const App = () => {
   const findBestRecipe = (updatedInventory: Ingredient[]) => {
     const recipeSuggestions = recipes.map(recipe => {
       const missingIngredients = getMissingIngredients(recipe);
-      return { 
-        recipe, 
+      return {
+        recipe,
         missing: missingIngredients.map(ing => ing.name),
         missingDetails: missingIngredients
       };
@@ -77,14 +77,14 @@ const App = () => {
     setAlmostRecipes(almostMatches);
   };
 
-  const filteredRecipes = filter === 'All' 
-    ? recipes 
+  const filteredRecipes = filter === 'All'
+    ? recipes
     : recipes.filter(r => r.dishType === filter);
 
   return (
-    <div className="min-h-screen bg-amber-50">
-      <header className="bg-red-600 text-white py-6 px-4 shadow-lg">
-        <div className="max-w-4xl mx-auto flex items-center">
+    <div className="min-h-screen bg-amber-50 flex flex-col">
+      <header className="bg-red-600 text-white py-6 shadow-lg w-full">
+        <div className="container mx-auto flex items-center px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold font-pokemon">
             Pokémon Sleep Recipe Helper
           </h1>
@@ -92,21 +92,21 @@ const App = () => {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto py-8 px-4">
+      <main className="flex-1 container mx-auto py-8 px-4 sm:px-6 lg:px-8 w-full">
         <section className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold text-gray-800">
               Your Ingredients
             </h2>
-            <button 
+            <button
               onClick={resetAllQuantities}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition"
+              className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition duration-200"
             >
               Reset All
             </button>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {inventory.map(ingredient => (
               <div key={ingredient.name} className="flex items-center bg-gray-100 p-3 rounded-lg">
                 <span className="text-2xl mr-3">{ingredient.icon}</span>
@@ -114,14 +114,14 @@ const App = () => {
                 <div className="flex items-center">
                   <button
                     onClick={() => adjustIngredientQuantity(ingredient.name, -1)}
-                    className="bg-red-400 hover:bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
+                    className="bg-red-400 hover:bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center transition"
                   >
                     -
                   </button>
                   <span className="mx-3 w-8 text-center">{ingredient.quantity}</span>
                   <button
                     onClick={() => adjustIngredientQuantity(ingredient.name, 1)}
-                    className="bg-green-400 hover:bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center"
+                    className="bg-green-400 hover:bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center transition"
                   >
                     +
                   </button>
@@ -133,30 +133,25 @@ const App = () => {
 
         <section className="mb-8">
           <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setFilter('All')}
-              className={`px-4 py-2 rounded-lg ${filter === 'All' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-            >
-              All Recipes
-            </button>
-            <button
-              onClick={() => setFilter('Curry')}
-              className={`px-4 py-2 rounded-lg ${filter === 'Curry' ? 'bg-red-500 text-white' : 'bg-gray-200'}`}
-            >
-              🍛 Curries
-            </button>
-            <button
-              onClick={() => setFilter('Salad')}
-              className={`px-4 py-2 rounded-lg ${filter === 'Salad' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
-            >
-              🥗 Salads
-            </button>
-            <button
-              onClick={() => setFilter('Dessert')}
-              className={`px-4 py-2 rounded-lg ${filter === 'Dessert' ? 'bg-purple-500 text-white' : 'bg-gray-200'}`}
-            >
-              🍨 Desserts
-            </button>
+            {['All', 'Curry', 'Salad', 'Dessert'].map(type => (
+              <button
+                key={type}
+                onClick={() => setFilter(type as any)}
+                className={`px-4 py-2 rounded-lg transition duration-200 ${
+                  filter === type
+                    ? type === 'Curry' ? 'bg-red-500 text-white'
+                    : type === 'Salad' ? 'bg-green-500 text-white'
+                    : type === 'Dessert' ? 'bg-purple-500 text-white'
+                    : 'bg-blue-500 text-white'
+                    : 'bg-gray-200'
+                }`}
+              >
+                {type === 'Curry' && '🍛 '}
+                {type === 'Salad' && '🥗 '}
+                {type === 'Dessert' && '🍨 '}
+                {type} Recipes
+              </button>
+            ))}
           </div>
         </section>
 
@@ -172,9 +167,11 @@ const App = () => {
                   const have = inventory.find(i => i.name === name)?.quantity || 0;
                   const missing = Math.max(0, quantity - have);
                   return (
-                    <span 
-                      key={name} 
-                      className={`px-3 py-1 rounded-full text-sm ${missing > 0 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}
+                    <span
+                      key={name}
+                      className={`px-3 py-1 rounded-full text-sm ${
+                        missing > 0 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                      }`}
                     >
                       {name}: {have}/{quantity} {missing > 0 && `(need ${missing})`}
                     </span>
@@ -186,10 +183,10 @@ const App = () => {
         )}
 
         {almostRecipes.length > 0 && (
-          <section>
+          <section className="mb-8">
             <h3 className="text-2xl font-bold mb-4">Almost Makeable Recipes</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {almostRecipes.map(({recipe, missing}) => {
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {almostRecipes.map(({ recipe, missing }) => {
                 const missingDetails = getMissingIngredients(recipe);
                 return (
                   <div key={recipe.name} className="bg-white p-4 rounded-lg shadow border border-gray-200">
@@ -203,7 +200,7 @@ const App = () => {
                             Missing {missingDetails.length} ingredient(s):
                           </p>
                           <ul className="list-disc pl-5">
-                            {missingDetails.map(({name, missing, needed, have}) => (
+                            {missingDetails.map(({ name, missing, needed, have }) => (
                               <li key={name}>
                                 {name}: Need {needed} (have {have})
                               </li>
@@ -221,15 +218,14 @@ const App = () => {
 
         <section className="mt-12">
           <h3 className="text-2xl font-bold mb-4">All Recipes</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filteredRecipes.map(recipe => {
               const missingIngredients = getMissingIngredients(recipe);
               const hasAllIngredients = missingIngredients.length === 0;
-              const missingCount = missingIngredients.length;
 
               return (
-                <div 
-                  key={recipe.name} 
+                <div
+                  key={recipe.name}
                   className="bg-white p-4 rounded-lg shadow hover:shadow-md transition cursor-pointer"
                   onClick={() => {
                     setRecipe(recipe);
@@ -244,7 +240,6 @@ const App = () => {
                         <p className="text-sm text-gray-600">{recipe.dishType}</p>
                       </div>
                     </div>
-                    
                     <div className="mt-auto pt-2">
                       {hasAllIngredients ? (
                         <p className="text-xs text-green-500 font-medium">
@@ -253,11 +248,16 @@ const App = () => {
                       ) : (
                         <>
                           <p className="text-xs font-medium mb-1">
-                            <span className="text-red-500">Missing {missingCount} ingredient(s)</span>
-                            <span className="text-gray-400 ml-1">({Object.keys(recipe.requiredIngredients).length - missingCount}/{Object.keys(recipe.requiredIngredients).length})</span>
+                            <span className="text-red-500">
+                              Missing {missingIngredients.length} ingredient(s)
+                            </span>
+                            <span className="text-gray-400 ml-1">
+                              ({Object.keys(recipe.requiredIngredients).length - missingIngredients.length}/
+                              {Object.keys(recipe.requiredIngredients).length})
+                            </span>
                           </p>
                           <ul className="text-xs space-y-1">
-                            {missingIngredients.map(({name, missing, needed}) => (
+                            {missingIngredients.map(({ name, missing }) => (
                               <li key={name} className="flex justify-between">
                                 <span>{name}:</span>
                                 <span className="text-red-500">{missing} more needed</span>
