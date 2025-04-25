@@ -100,7 +100,7 @@ const App = () => {
       <header className="bg-red-600 text-white py-6 shadow-lg w-full">
         <div className="container mx-auto flex items-center px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold font-pokemon">
-            Pokémon Sleep Recipe Helper
+            Pokémon Sleep Recipe Helper by Alex Cleary
           </h1>
           <span className="ml-4 text-3xl">🍛🥗🍨</span>
         </div>
