@@ -1,54 +1,93 @@
-# React + TypeScript + Vite
+# Pokémon Sleep Helper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Pokémon Sleep Helper** is a web-based tool designed to assist players of the mobile game *Pokémon Sleep* in optimizing their gameplay.  
+Built with React, TypeScript, and Vite, this application aims to provide a seamless and efficient user experience for recipe making.
 
-Currently, two official plugins are available:
+You can access the app here: https://psbuildarecipe.com/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **User-Friendly Interface**: Navigate through the app with ease, thanks to its intuitive design.
+- **Real-Time Updates**: Experience fast and responsive interactions, enhancing your gameplay assistance.
+- **Customizable Settings**: Tailor the app to fit your specific needs and preferences.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Technologies Used
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
+- **Vite**: A build tool that aims to provide a faster and leaner development experience for modern web projects.
+- **Tailwind CSS**: A utility-first CSS framework for rapidly building custom user interfaces.
+- **ESLint**: A tool for identifying and fixing problems in JavaScript code.
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 14 or above)
+- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/clearyalexandros/pokemon-sleep-helper.git
+   cd pokemon-sleep-helper
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+   The application will be available at `http://localhost:5173/`.
+
+## Project Structure
+
+```
+pokemon-sleep-helper/
+├── public/             # Static assets
+├── src/                # Source code
+│   ├── components/     # Reusable components
+│   ├── pages/          # Page components
+│   ├── styles/         # Tailwind CSS configurations
+│   └── main.tsx        # Entry point
+├── index.html          # Main HTML file
+├── package.json        # Project metadata and scripts
+├── tailwind.config.js  # Tailwind CSS configuration
+└── vite.config.ts      # Vite configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Contributing
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Contributions are welcome! If you have suggestions or improvements, feel free to fork the repository and submit a pull request.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1. **Fork the repository**
+2. **Create a new branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **Commit your changes**
+   ```bash
+   git commit -m "Add your message here"
+   ```
+
+4. **Push to the branch**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. **Open a pull request**
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
